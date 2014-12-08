@@ -81,3 +81,15 @@ def daily_return(series):
         for i in range(1, time_length):
             data[return_name].ix[i] = float(float(data[data_name].ix[i]-data[data_name].ix[i-1])/data[data_name].ix[i-1])
         return data[return_name]
+
+
+def sharpe(series, period):
+    """
+    This function takes in daily_return series and period to calculate sharpe ratio. It returns a series with name 'sharpe'
+    """
+    if sharpe_checkinput(series, period) == 0:
+        data = pd.DataFrame(series)
+        data_name = list(data.columns)[0]
+        time_length = len(data)
+        sharpe_name = 'sharpe'
+        data[sharpe_name] = np.nan

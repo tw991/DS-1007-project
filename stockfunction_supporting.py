@@ -67,3 +67,11 @@ def daily_return_checkinput(series):
     """
     if basic_checkinput(series) == 0:
         return 0
+
+
+def sharpe_checkinput(series, period):
+    """
+    This function checks input series for sharpe(series, period) function. When input is valid, it will return 0.
+    """
+    if basic_checkinput(series, period) == 0:
+        return 0
