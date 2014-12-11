@@ -1,3 +1,7 @@
+"""
+Author: Tian Wang
+"""
+
 from stockfunction import *
 from datetime import datetime
 import unittest
@@ -135,6 +139,27 @@ class Test_daily_return(unittest.TestCase):
     def test_Negativevalue_exception(self):
         with self.assertRaises(Negativevalue):
             daily_return(self.input_negative)
+
+class Test_sharpe(unittest.TestCase):
+    """
+    Test sharpe(series, period) function
+    """
+    def setUp(self):
+        self.dates = [datetime(2011,1,2), datetime(2011,1,5), datetime(2011,1,7), datetime(2011,1,8), datetime(2011,1,10), datetime(2011,1,12)]
+        self.input_true_df = pd.Series([1,2,3,4,5,6], index = self.dates, name = 'Close')
+        self.daily_returns = daily_return(self.input_true_df)
+        self.output_true_df = pd.Series([np.nan, np.nan, round(2/np.std([1/1,float(1)/2]),3), round(1/np.std([float(1)/2, float(1)/3]), 3), round(float(2)/3/(np.std([float(1)/3, float(1)/4])), 3), round(0.5/np.std([float(1)/4, float(1)/5]), 3)], index=self.dates, name='sharpe')
+        self.input_negative = pd.Series([1,-2,3,4,5,6], index = self.dates, name = 'Close')
+
+    def test_trueoutput(self):
+        sharpe_answer = sharpe(self.input_true_df, 3)
+        self.assertListEqual(list(sharpe_answer[~np.isnan(sharpe_answer)]), list(self.output_true_df[~np.isnan(self.output_true_df)]))
+        self.assertEqual(len(sharpe_answer), len(self.output_true_df))
+        self.assertEqual(self.output_true_df.name, sharpe_answer.name)
+
+    def test_Negativevalue_exception(self):
+        with self.assertRaises(Negativevalue):
+            sharpe(self.input_negative, 3)
 
 
 if __name__ == '__main__':

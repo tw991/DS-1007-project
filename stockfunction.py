@@ -1,3 +1,7 @@
+"""
+Author: Tian Wang
+"""
+
 import pandas as pd
 import numpy as np
 from stockexception import *
@@ -85,11 +89,17 @@ def daily_return(series):
 
 def sharpe(series, period):
     """
-    This function takes in daily_return series and period to calculate sharpe ratio. It returns a series with name 'sharpe'
+    This function takes in 'Close' series and period to calculate sharpe ratio. It returns a series with name 'sharpe'
     """
     if sharpe_checkinput(series, period) == 0:
         data = pd.DataFrame(series)
-        data_name = list(data.columns)[0]
+        close_column = list(data.columns)[0]
+        d_return = daily_return(series)
         time_length = len(data)
         sharpe_name = 'sharpe'
         data[sharpe_name] = np.nan
+        for i in range(0, time_length - period + 1):
+            period_return = float((data[close_column].ix[period-1+i] - data[close_column].ix[i]))/float(data[close_column].ix[i])
+            period_return_std = np.std(d_return[i+1:period+i])
+            data[sharpe_name].ix[period-1+i] = round(period_return/period_return_std, 3)
+        return data[sharpe_name]

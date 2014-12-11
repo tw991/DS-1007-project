@@ -1,3 +1,7 @@
+"""
+Author: Tian Wang
+"""
+
 class Invalidperiodlength(Exception):
     """
     Raised when moving average computation length is smaller than length of data
