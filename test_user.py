@@ -7,5 +7,11 @@ def main():
     print sma(input_true_df,3)
     print sma(input_true_df,4)
 
+from portfolio import *
+
+test = portfolio(['F'])
+test.set_position([1])
+test.simulate('2010/1/1','2010/1/10')
+test.end_value
 if __name__ == '__main__':
     main()

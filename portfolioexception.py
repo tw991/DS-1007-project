@@ -2,6 +2,7 @@
 Author: Tian Wang
 """
 
+
 class Invalidposition(Exception):
     """
     Raised when input position is not valid
@@ -27,3 +28,10 @@ class Invaliddatetimeinput(Exception):
     def __str__(self):
         return "Invalid datetime input!"
     pass
+
+class InvalidTickerlist(Exception):
+    """
+    Raised when ticker_list input for portfolio class is not list
+    """
+    def __str__(self):
+        return "Invalid ticker list input! It needs to be a list!"

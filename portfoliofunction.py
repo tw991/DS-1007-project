@@ -4,6 +4,12 @@ import numpy as np
 import datetime
 
 
+def portfolio_checkinput(stock_ticker_list):
+    if not isinstance(stock_ticker_list, list):
+        raise InvalidTickerlist
+    return 0
+
+
 def datetime_checkinput(year, month, day):
     try:
         datetime.datetime(year, month, day)
@@ -35,7 +41,7 @@ def simulatedate_checkinput(start, end):
 def get_simulate_date(start, end):
     start_year, start_month, start_day = parse_string_datetime(start)
     end_year, end_month, end_day = parse_string_datetime(end)
-    if simulatedate_checkinput(start, end):
+    if simulatedate_checkinput(start, end) == 0:
         start_time = datetime.datetime(start_year, start_month, start_day)
         end_time = datetime.datetime(end_year, end_month, end_day)
         return start_time, end_time
