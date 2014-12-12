@@ -20,10 +20,10 @@ class portfolio():
     stock_ticker_list: list (eg. ['ADBE','F'])
         Used to specify the stocks used in portfolio
 
-    start_price_list: dataframe
+    start_price_list: pandas.DataFrame
         Used to store the close price of all stocks in the portfolio on the start day
 
-    end_price_list: dataframe
+    end_price_list: pandas.DataFrame
         Used to store the close price of all stocks in the portfolio on the end day
 
     start_value: float
