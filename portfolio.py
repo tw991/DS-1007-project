@@ -13,15 +13,55 @@ class portfolio():
     stock_ticker_list: list (eg. ['ADBE','F'])
         Used to specify the stocks used in portfolio
 
+    starting_cash: float (default = 10000)
+        Amount of money used in portfolio
+
     Attributes:
     stock_ticker_list: list (eg. ['ADBE','F'])
         Used to specify the stocks used in portfolio
 
     start_price_list: dataframe
-        Used to store the close price of all stocks in the portfolio
+        Used to store the close price of all stocks in the portfolio on the start day
 
     end_price_list: dataframe
-        Used to store the close price of all stocks in 
+        Used to store the close price of all stocks in the portfolio on the end day
+
+    start_value: float
+        Used to store the amount of invested money in the portfolio
+
+    end_value: float
+        Used to store the amount of money after the simulation is run over a period of time
+
+    position: list
+        Used to store the percentage of money invested on each stock after set_position() method is called.
+
+    start_time: datetime
+        Used to store the datetime of starting day of the portfolio
+
+    end_time: datetime
+        Used to store the datetime of end day of the portfolio
+
+
+    Methods:
+    simulate(position_list, start_time, end_time):
+        Simulate return of a portfolio over a period of time.
+        It will buy the stocks in portfolio according to position_list on the start_time, and sell all of them on the
+        end_time.
+
+        Parameters:
+            position_list: list, length = number of stocks
+                The input list of the percentage of money invested in each stock
+                eg: [0.2, 0.8]
+
+            start: string, 'year/month/day'
+                Used to specify the starting date of portfolio.
+            end: string, 'year/month/day'
+                Used to specify the end date of portfolio.
+
+        Returns:
+            end_value: float
+                The value of portfolio on the end date.
+
 
 
 
@@ -56,18 +96,12 @@ class portfolio():
     def _set_simulatetime(self, start, end):
         self.start_time, self.end_time = get_simulate_date(start, end)
 
-    def set_position(self, position_list):
-        """
-        Allocate the investment money to all chosen stock
-        It takes in position_list as a float list with summation less or equal to 1. eg: [0.2, 0.8]
-        """
+    def _set_position(self, position_list):
         if self._position_checkinput(position_list, self.stock_ticker_list) == 0:
             self.position = pd.DataFrame(position_list, index = self.stock_ticker_list)
 
-    def simulate(self, start, end):
-        """
-        start and end are strings. year/month/day
-        """
+    def simulate(self, position_list, start, end):
+        self._set_position(position_list)
         if not len(self.position):
             raise Undefinedposition
         self._set_simulatetime(start, end)
@@ -75,6 +109,7 @@ class portfolio():
         share_list = (self.position * self.start_value)/self.start_price_list
         end_value_list = share_list*self.end_price_list
         self.end_value = float(end_value_list.sum())
+        return self.end_value
 
 
 

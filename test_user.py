@@ -10,8 +10,7 @@ def main():
 from portfolio import *
 
 test = portfolio(['F'])
-test.set_position([1])
-test.simulate('2010/1/1','2010/1/10')
+test.simulate([1],'2010/1/1','2010/1/10')
 test.end_value
 if __name__ == '__main__':
     main()
