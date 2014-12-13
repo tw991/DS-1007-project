@@ -77,6 +77,7 @@ class portfolio():
         self.end_time = False
 
     def _position_checkinput(self, position_list, ticker_list):
+        #check whether position input is a valid list of allocation percentage of money in each stock
         if len(position_list) != len(ticker_list):
             raise Invalidposition
         if np.sum(position_list) > 1:
@@ -84,6 +85,7 @@ class portfolio():
         return 0
 
     def _get_portfolio_data(self):
+        #get Close price in starting day and end day for each stock in portfolio
         for stock in self.stock_ticker_list:
             temp_data = get_data(stock, 'yahoo', '%d/%d/%d' %(self.start_time.year, self.start_time.month, self.start_time.day), '%d/%d/%d' %(self.end_time.year, self.end_time.month, self.end_time.day))
             start_data = temp_data['Close'].ix[0]
@@ -94,13 +96,18 @@ class portfolio():
         self.end_price_list = pd.DataFrame(self.end_price_list, index = self.stock_ticker_list)
 
     def _set_simulatetime(self, start, end):
+        #set start_time and end_time by valid datetime
         self.start_time, self.end_time = get_simulate_date(start, end)
 
     def _set_position(self, position_list):
+        #set position attribute with a valid position list
         if self._position_checkinput(position_list, self.stock_ticker_list) == 0:
             self.position = pd.DataFrame(position_list, index = self.stock_ticker_list)
 
     def simulate(self, position_list, start, end):
+        #Simulate return of a portfolio over a period of time.
+        #It will buy the stocks in portfolio according to position_list on the start_time, and sell all of them on the
+        #end_time.
         self._set_position(position_list)
         if not len(self.position):
             raise Undefinedposition

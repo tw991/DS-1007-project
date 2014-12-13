@@ -5,12 +5,18 @@ import datetime
 
 
 def portfolio_checkinput(stock_ticker_list):
+    """
+    check whether input is a list to initialize a portfolio instance
+    """
     if not isinstance(stock_ticker_list, list):
         raise InvalidTickerlist
     return 0
 
 
 def datetime_checkinput(year, month, day):
+    """
+    check whether input is a valid datetime
+    """
     try:
         datetime.datetime(year, month, day)
     except:
@@ -19,6 +25,9 @@ def datetime_checkinput(year, month, day):
 
 
 def parse_string_datetime(date):
+    """
+    parse date string to year, month and day
+    """
     date_string_parse = date.split('/')
     year = int(date_string_parse[0])
     month = int(date_string_parse[1])
@@ -27,6 +36,9 @@ def parse_string_datetime(date):
 
 
 def simulatedate_checkinput(start, end):
+    """
+    check whether input is a valid period of time
+    """
     start_year, start_month, start_day = parse_string_datetime(start)
     end_year, end_month, end_day = parse_string_datetime(end)
     if datetime_checkinput(start_year, start_month, start_day) == 0 and datetime_checkinput(end_year, end_month, end_day) == 0:
@@ -39,6 +51,9 @@ def simulatedate_checkinput(start, end):
 
 
 def get_simulate_date(start, end):
+    """
+    return valid datetime for simulate function in portfolio class from string input
+    """
     start_year, start_month, start_day = parse_string_datetime(start)
     end_year, end_month, end_day = parse_string_datetime(end)
     if simulatedate_checkinput(start, end) == 0:

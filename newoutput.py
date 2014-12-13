@@ -87,6 +87,7 @@ class stock:
         self.name=name
     
     def sma(self, series, length):
+        #It calculates simple moving average of a number series with period=length.
         if basic_checkinput(series, length) == 0:
             data = pd.DataFrame(series)
             time_length = len(data)
@@ -97,6 +98,7 @@ class stock:
             return data[sma_name]
 
     def std(self, series, length):
+        #It calculates moving standard deviation of a number series with period=length.
         if basic_checkinput(series, length) == 0:
             data = pd.DataFrame(series)
             time_length = len(data)
@@ -107,6 +109,8 @@ class stock:
             return data[std_name]
 
     def boll(self, series, N=20):
+        #It computes Bollinger Bands for N days with 1 standard deviation factor. Upper band at 1 standard deviation
+        #above the N-period moving average. Lower band at 1 standard deviation under the N-period moving average.
         K=1
         if boll_checkinput(series, N, K) == 0:
             data = pd.DataFrame(series)
@@ -120,6 +124,7 @@ class stock:
 
 
     def macd(self, series):
+        #It computes MACD indicator with slow period=20 and fast period=5.
         slow=20 
         fast=5
         if macd_checkinput(series, slow, fast) == 0:
@@ -130,6 +135,7 @@ class stock:
 
 
     def daily_return(self, series):
+        #It computes daily return by calculating (close[day]-close[day-1])/close[day-1]
         if daily_return_checkinput(series) == 0:
             data = pd.DataFrame(series)
             data_name = list(data.columns)[0]
@@ -142,6 +148,7 @@ class stock:
 
 
     def sharpe(self, series, period):
+        #It computes moving sharpe ratio in a time period by calculating return(period)/std(daily_return(period))
         if sharpe_checkinput(series, period) == 0:
             data = pd.DataFrame(series)
             close_column = list(data.columns)[0]
